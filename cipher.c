@@ -4,10 +4,10 @@
 #include <stdlib.h>
 
 
-const char* text_file_to_string(char*);
+const char* text_file_to_string( char*);
 void verify_and_call_functions(int, char*[]);
-void encrypt(const char *);
-void decrypt (const char*);
+void encode(const char *);
+void decode (const char*);
 void print_options(void);
 
 int main(int argc, char *argv[]) {
@@ -20,16 +20,16 @@ int main(int argc, char *argv[]) {
 }
 
 void verify_and_call_functions(int argc, char *argv[]) {
-  if (strcmp(argv[1], "encrypt") == 0 && strcmp(argv[2], "f") == 0) {
+  if (strcmp(argv[1], "encode") == 0 && strcmp(argv[2], "f") == 0) {
     const char *string = text_file_to_string(argv[3]);
-    encrypt(string);
-  }else if (strcmp(argv[1], "encrypt") == 0 && strcmp(argv[2], "n") == 0) {
-    encrypt(argv[3]);
-  }else if (strcmp(argv[1], "decrypt") == 0 && strcmp(argv[2], "f") == 0) {
+    encode(string);
+  }else if (strcmp(argv[1], "encode") == 0 && strcmp(argv[2], "n") == 0) {
+    encode(argv[3]);
+  }else if (strcmp(argv[1], "decode") == 0 && strcmp(argv[2], "f") == 0) {
     const char *string = text_file_to_string(argv[3]);
-    decrypt(string);
-  }else if (strcmp(argv[1], "decrypt") == 0 && strcmp(argv[2], "n") == 0) {
-    decrypt(argv[3]);
+    decode(string);
+  }else if (strcmp(argv[1], "decode") == 0 && strcmp(argv[2], "n") == 0) {
+    decode(argv[3]);
   }else {
     printf("ERROR: Options not allowed or incorrect syntax\n\n");
     print_options();
@@ -62,11 +62,23 @@ const char* text_file_to_string(char *path) {
 }
 
   
-void encrypt(const char *string) {
-  printf("String input:\n%s\n", string);
+void encode(const char *string) {
+  char text_encoded[strlen(string)];
+  
+  for (size_t i = 0; i < strlen(string); i++) {
+    size_t ascii_value = string[i] - '\0';
+    if ((ascii_value > 87 && ascii_value < 91) || (ascii_value > 119 && ascii_value < 123)) {
+      text_encoded[i] = ascii_value - 23;
+    }else if (ascii_value > 64 || ascii_value > 96){
+      text_encoded[i] = ascii_value + 3;
+    }else {
+      text_encoded[i] = ascii_value;
+    }
+  }
+  printf("TEXT encode OUTPUT:\n%s\n", text_encoded);
 }
 
-void decrypt(const char* string) {
+void decode(const char* string) {
   printf("String input:\n%s\n", string);
 }
 
@@ -74,8 +86,8 @@ void decrypt(const char* string) {
 void print_options(void) {
   printf("The following options are avaible:\n\n");
   printf("command:\t\t\t\tmode:\t\t\t\tusage example:\n");
-  printf("encrypt\t\t\t\t\tf/n\t\t\t\t./cipher encrypt f './test.txt'\n");
-  printf("decrypt\t\t\t\t\tf/n\t\t\t\t./cipher decrypt n 'Hello World!'\n");
+  printf("encode\t\t\t\t\tf/n\t\t\t\t./cipher encode f './test.txt'\n");
+  printf("decode\t\t\t\t\tf/n\t\t\t\t./cipher decode 'Hello World!'\n");
 }
 
 
