@@ -23,15 +23,15 @@ void verify_and_call_functions(int argc, char *argv[]) {
   if (strcmp(argv[1], "encrypt") == 0 && strcmp(argv[2], "f") == 0) {
     const char *string = text_file_to_string(argv[3]);
     encrypt(string);
-  }else if (strcmp(argv[1], "encrypt") == 0) {
-    encrypt(argv[2]);
+  }else if (strcmp(argv[1], "encrypt") == 0 && strcmp(argv[2], "n") == 0) {
+    encrypt(argv[3]);
   }else if (strcmp(argv[1], "decrypt") == 0 && strcmp(argv[2], "f") == 0) {
     const char *string = text_file_to_string(argv[3]);
     decrypt(string);
-  }else if (strcmp(argv[1], "decrypt") == 0) {
-    decrypt(argv[2]);
+  }else if (strcmp(argv[1], "decrypt") == 0 && strcmp(argv[2], "n") == 0) {
+    decrypt(argv[3]);
   }else {
-    printf("ERROR: Options now allowed or incorrect syntax\n");
+    printf("ERROR: Options not allowed or incorrect syntax\n\n");
     print_options();
   }
 }
@@ -73,6 +73,7 @@ void decrypt(const char* string) {
 
 void print_options(void) {
   printf("The following options are avaible:\n\ncommand:\t\t\t\tmode:\t\t\t\tusage example:\nencrypt\t\t\t\t\tf/n\t\t\t\t./cipher encrypt f './test.txt'\n");
+  printf("decrypt\t\t\t\t\tf/n\t\t\t\t./cipher decrypt n 'Hello World!'\n");
 }
 
 
