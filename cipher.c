@@ -72,7 +72,9 @@ void decrypt(const char* string) {
 
 
 void print_options(void) {
-  printf("The following options are avaible:\n\ncommand:\t\t\t\tmode:\t\t\t\tusage example:\nencrypt\t\t\t\t\tf/n\t\t\t\t./cipher encrypt f './test.txt'\n");
+  printf("The following options are avaible:\n\n");
+  printf("command:\t\t\t\tmode:\t\t\t\tusage example:\n");
+  printf("encrypt\t\t\t\t\tf/n\t\t\t\t./cipher encrypt f './test.txt'\n");
   printf("decrypt\t\t\t\t\tf/n\t\t\t\t./cipher decrypt n 'Hello World!'\n");
 }
 
