@@ -1,70 +1,80 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
-#include <stdint.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
-void interpretCommands(size_t numberOfArgs, char *argsValue[]);
-char* encryptText(char *textArgument, char mode[6]);
-char* decryptText(char *textArgument, char mode[6]);
-const char* extractTextOfFile (char *path);
 
-int main(size_t argc, char *argv[] ) {
-  interpretCommands(argc, argv);
-  return 0;
-}
+const char* text_file_to_string(char*);
+void verify_and_call_functions(int, char*[]);
+void encrypt(const char *);
+void decrypt (const char*);
+void print_options(void);
 
-void interpretCommands(size_t numberOfArgs, char *argsValue[]) {
-  if (numberOfArgs < 3) {
-    if (strcmp(argsValue[1], "encrypt") == 0 && strcmp(argsValue[2], "-f") == 0) {
-      encryptText(argsValue[2], "-f");
-    }
-    else if (strcmp(argsValue[1], "encrypt") == 0 && strcmp(argsValue[2], "-f") != 0 ){
-      encryptText(argsValue[2], "normal");
-    }
-    else if (strcmp(argsValue[1], "decrypt")== 0 && strcmp(argsValue[2], "-f") == 0) {
-      decryptText(argsValue[2], "-f");
-    }
-    else if (strcmp(argsValue[1], "decrypt") == 0 && strcmp (argsValue[2], "-f") !=0) {
-      decryptText(argsValue[2], "normal");
-    }
+int main(int argc, char *argv[]) {
+  if (argc > 2) {
+    verify_and_call_functions(argc, argv);
   }else {
-    printf("exceeded command limits");
-  }    
-}
-
-
-char* encryptText(char *argsValueOfText, char mode[6]) {
-  if (strcmp(mode, "-f") == 0) {
-    char text = extractTextOfFile(argsValueOfText);
-    printf("%s", text);
-  }else {
-    printf("%s", argsValueOfText);
-
-  }
-
-
-}
-char* decryptText(char *argsValueOfText, char mode[6]) {
-  printf("aqui");
-
-}
-
-const char* extractTextOfFile (char* path) {
-  FILE* textFile = fopen(path, "r");
-  if (textFile == NULL) {
-    printf("Cannot open file!!!");
-    exit(EXIT_FAILURE);
-  }
-
-  fseek(textFile, 0L, SEEK_END);
-  char *extractedText[ftell(textFile)];
-  int count = 0;
-  
-  for ( char c = fgetc(textFile); c != EOF; c = fgetc(textFile), count++) {
-    extractedText[count] = c;
+    print_options();
   }
   
-  return extractedText;
+}
+
+void verify_and_call_functions(int argc, char *argv[]) {
+  if (strcmp(argv[1], "encrypt") == 0 && strcmp(argv[2], "f") == 0) {
+    const char *string = text_file_to_string(argv[3]);
+    encrypt(string);
+  }else if (strcmp(argv[1], "encrypt") == 0) {
+    encrypt(argv[2]);
+  }else if (strcmp(argv[1], "decrypt") == 0 && strcmp(argv[2], "f") == 0) {
+    const char *string = text_file_to_string(argv[3]);
+    decrypt(string);
+  }else if (strcmp(argv[1], "decrypt") == 0) {
+    decrypt(argv[2]);
+  }else {
+    printf("ERROR: Options now allowed or incorrect syntax\n");
+    print_options();
+  }
+}
+
+const char* text_file_to_string(char *path) {
+  char* buffer = 0;
+  long lenght;
+  FILE *text_file = fopen(path, "r");
+
+  if (text_file) {
+    fseek(text_file, 0, SEEK_END);
+    lenght = ftell(text_file);
+    fseek(text_file, 0, SEEK_SET);
+    buffer = malloc(lenght + 1);
+    if (buffer) {
+      fread(buffer, 1, lenght, text_file);
+
+    }
+  fclose(text_file);
+  buffer[lenght] = '\0';
+  }else {
+    printf("Cant read file %s\n", path);
+    exit(1);
+  }
+
+  if (buffer) return buffer;
 
 }
+
+  
+void encrypt(const char *string) {
+  printf("String input:\n%s\n", string);
+}
+
+void decrypt(const char* string) {
+  printf("String input:\n%s\n", string);
+}
+
+
+void print_options(void) {
+  printf("The following options are avaible:\n\ncommand:\t\t\t\tmode:\t\t\t\tusage example:\nencrypt\t\t\t\t\tf/n\t\t\t\t./cipher encrypt f './test.txt'\n");
+}
+
+
+
+
