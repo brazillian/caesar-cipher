@@ -79,15 +79,29 @@ void encode(const char *string) {
 }
 
 void decode(const char* string) {
-  printf("String input:\n%s\n", string);
+  char text_decoded[strlen(string)];
+
+  for (size_t i = 0; i < strlen(string); i++) {
+    size_t ascii_value = string[i] - '\0';
+    if((ascii_value > 64 && ascii_value < 68) || (ascii_value > 96 && ascii_value < 100)) {
+      text_decoded[i] = ascii_value + 23;
+    }else if (ascii_value > 67 || ascii_value > 99) {
+      text_decoded[i] = ascii_value - 3;
+    }else {
+      text_decoded[i] = ascii_value;
+    }
+  }
+
+  printf("TEXT decoded OUTPUT:\n%s\n", text_decoded);
 }
+
 
 
 void print_options(void) {
   printf("The following options are avaible:\n\n");
   printf("command:\t\t\t\tmode:\t\t\t\tusage example:\n");
   printf("encode\t\t\t\t\tf/n\t\t\t\t./cipher encode f './test.txt'\n");
-  printf("decode\t\t\t\t\tf/n\t\t\t\t./cipher decode 'Hello World!'\n");
+  printf("decode\t\t\t\t\tf/n\t\t\t\t./cipher decode n 'Hello World!'\n");
 }
 
 
