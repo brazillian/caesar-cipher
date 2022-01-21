@@ -118,7 +118,7 @@ void decode(const char* string, size_t shift) {
 void print_options(void) {
   printf("\nNAME\n\t\tcipher - encode and decode text in shift/caesar cipher\n\nSYNOPSIS\n\t\t./cipher [MODE] [INPUT MODE] [SHIFT]\n\nDESCRIPTION\n\t\tEncode and decode text from a file or not in caesar/shift cipher");
   printf("\n\nUSAGE\n\t\tMODE: [encode|decode].");
-  printf("\n\n\t\tINPUT: [-f|q]\t-f means from the file / -q means from the quotes.");
+  printf("\n\n\t\tINPUT MODE: [-f|q]\t-f means from the file / -q means from the quotes.");
   printf("\n\n\t\tSHIFT: In the last argument if you want pass the shift value, \n\t\totherwise leave it blank for use the default -> 3.\n\n");
   printf("EXAMPLES\n\t\t./cipher encode -q \"HELLO WORLD\" 4");
   printf("\n\n\t\tThis will set the mode to encode, the input mode for quotes,\n\t\tand the shift value to 4. With this command the output will be: LIPPS ASVPH.\n");
