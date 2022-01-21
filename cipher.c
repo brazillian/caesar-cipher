@@ -6,8 +6,8 @@
 
 const char* text_file_to_string( char*);
 void verify_and_call_functions(int, char*[]);
-void encode(const char *);
-void decode (const char*);
+void encode(const char *, size_t shift);
+void decode (const char*, size_t shift);
 void print_options(void);
 
 int main(int argc, char *argv[]) {
@@ -20,16 +20,32 @@ int main(int argc, char *argv[]) {
 }
 
 void verify_and_call_functions(int argc, char *argv[]) {
-  if (strcmp(argv[1], "encode") == 0 && strcmp(argv[2], "f") == 0) {
+  if (strcmp(argv[1], "encode") == 0 && strcmp(argv[2], "-f") == 0) {
     const char *string = text_file_to_string(argv[3]);
-    encode(string);
-  }else if (strcmp(argv[1], "encode") == 0 && strcmp(argv[2], "n") == 0) {
-    encode(argv[3]);
-  }else if (strcmp(argv[1], "decode") == 0 && strcmp(argv[2], "f") == 0) {
+    if (argv[4]) { 
+    	encode(string, atoi(argv[4]));
+    }else {
+    	encode(string, 3);
+    }
+  }else if (strcmp(argv[1], "encode") == 0 && strcmp(argv[2], "-q") == 0) {
+    if (argv[4]) {
+   	encode(argv[3], atoi(argv[4]));
+    }else {
+	encode(argv[3], 3);
+    } 
+  }else if (strcmp(argv[1], "decode") == 0 && strcmp(argv[2], "-f") == 0) {
     const char *string = text_file_to_string(argv[3]);
-    decode(string);
-  }else if (strcmp(argv[1], "decode") == 0 && strcmp(argv[2], "n") == 0) {
-    decode(argv[3]);
+    if (argv[4]) {
+    	decode(string, atoi(argv[4]));
+    }else {
+    	decode(string, 3);
+    }
+  }else if (strcmp(argv[1], "decode") == 0 && strcmp(argv[2], "-q") == 0) {
+    if (argv[4]) {
+    	decode(argv[3], atoi(argv[4]));
+    }else {
+    	decode(argv[3], 3);
+    }
   }else {
     printf("ERROR: Options not allowed or incorrect syntax\n\n");
     print_options();
@@ -57,20 +73,21 @@ const char* text_file_to_string(char *path) {
     exit(1);
   }
 
-  if (buffer) return buffer;
+  return buffer;
 
 }
 
   
-void encode(const char *string) {
+void encode(const char *string, size_t shift) {
   char text_encoded[strlen(string)];
+  text_encoded[strlen(string)] = '\0';
   
   for (size_t i = 0; i < strlen(string); i++) {
     size_t ascii_value = string[i] - '\0';
-    if ((ascii_value > 87 && ascii_value < 91) || (ascii_value > 119 && ascii_value < 123)) {
-      text_encoded[i] = ascii_value - 23;
-    }else if (ascii_value > 64 || ascii_value > 96){
-      text_encoded[i] = ascii_value + 3;
+    if ((ascii_value + shift > 'Z' && ascii_value < 'Z' + 1) || (ascii_value + shift > 'z' && ascii_value < 'z' + 1)) {
+      text_encoded[i] = ascii_value - (26 - shift);
+    }else if (ascii_value > 'A' ||ascii_value > 'a'){
+      text_encoded[i] = ascii_value + shift;
     }else {
       text_encoded[i] = ascii_value;
     }
@@ -78,15 +95,16 @@ void encode(const char *string) {
   printf("TEXT encode OUTPUT:\n%s\n", text_encoded);
 }
 
-void decode(const char* string) {
+void decode(const char* string, size_t shift) {
   char text_decoded[strlen(string)];
+  text_decoded[strlen(string)] = '\0';
 
   for (size_t i = 0; i < strlen(string); i++) {
     size_t ascii_value = string[i] - '\0';
-    if((ascii_value > 64 && ascii_value < 68) || (ascii_value > 96 && ascii_value < 100)) {
-      text_decoded[i] = ascii_value + 23;
-    }else if (ascii_value > 67 || ascii_value > 99) {
-      text_decoded[i] = ascii_value - 3;
+    if((ascii_value - shift < 'A' && ascii_value > 'A' - 1) || (ascii_value - shift < 'a' && ascii_value > 'a' - 1)) {
+      text_decoded[i] = ascii_value + (26 - shift);
+    }else if (ascii_value  - shift >= 'A' || ascii_value - shift >= 'a') {
+      text_decoded[i] = ascii_value - shift;
     }else {
       text_decoded[i] = ascii_value;
     }
@@ -98,12 +116,15 @@ void decode(const char* string) {
 
 
 void print_options(void) {
-  printf("The following options are avaible:\n\n");
-  printf("command:\t\t\t\tmode:\t\t\t\tusage example:\n");
-  printf("encode\t\t\t\t\tf/n\t\t\t\t./cipher encode f './test.txt'\n");
-  printf("decode\t\t\t\t\tf/n\t\t\t\t./cipher decode n 'Hello World!'\n");
+  printf("\nNAME\n\t\tcipher - encode and decode text in shift/caesar cipher\n\nSYNOPSIS\n\t\t./cipher [MODE] [INPUT MODE] [SHIFT]\n\nDESCRIPTION\n\t\tEncode and decode text from a file or not in caesar/shift cipher");
+  printf("\n\nUSAGE\n\t\tMODE: [encode|decode].");
+  printf("\n\n\t\tINPUT: [-f|q]\t-f means from the file / -q means from the quotes.");
+  printf("\n\n\t\tSHIFT: In the last argument if you want pass the shift value, \n\t\totherwise leave it blank for use the default -> 3.\n\n");
+  printf("EXAMPLES\n\t\t./cipher encode -q \"HELLO WORLD\" 4");
+  printf("\n\n\t\tThis will set the mode to encode, the input mode for quotes,\n\t\tand the shift value to 4. With this command the output will be: LIPPS ASVPH.\n");
+  printf("\n\t\t./cipher decode -f \"textFile.txt\" 4");
+  printf("\n\n\t\tIf the content of the \"textFile.txt\" is LIPPS ASVPH\n\t\tthen the output will be: HELLO WORLD.\n");
 }
-
 
 
 
