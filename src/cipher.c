@@ -124,6 +124,8 @@ void print_options(void) {
   printf("\n\n\t\tThis will set the mode to encode, the input mode for quotes,\n\t\tand the shift value to 4. With this command the output will be: LIPPS ASVPH.\n");
   printf("\n\t\t./cipher decode -f \"textFile.txt\" 4");
   printf("\n\n\t\tIf the content of the \"textFile.txt\" is LIPPS ASVPH\n\t\tthen the output will be: HELLO WORLD.\n");
+  printf("\nAUTHOR\n\t\tWritten by Luiz Guilherme C. Silva.");
+  printf("\n\nCOPYTIGHT\n\t\tCopyright (C) 1989, 1991 Free Software Foundation, Inc.,\n\t\t51 Franklin Street, Fifth Floor, Boston, MA 02110-1301\n\t\tUSA Everyone is permitted to copy and distribute verbatim copies\n\t\tof this license document, but changing it is not allowed.\n");
 }
 
 
