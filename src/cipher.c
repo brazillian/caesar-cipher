@@ -86,7 +86,7 @@ void encode(const char *string, size_t shift) {
     size_t ascii_value = string[i] - '\0';
     if ((ascii_value + shift > 'Z' && ascii_value < 'Z' + 1) || (ascii_value + shift > 'z' && ascii_value < 'z' + 1)) {
       text_encoded[i] = ascii_value - (26 - shift);
-    }else if (ascii_value > 'A' ||ascii_value > 'a'){
+    }else if ((ascii_value >= 'A' && ascii_value < 'Z' + 1) || (ascii_value >= 'a' && ascii_value < 'z' + 1)){
       text_encoded[i] = ascii_value + shift;
     }else {
       text_encoded[i] = ascii_value;
@@ -103,7 +103,7 @@ void decode(const char* string, size_t shift) {
     size_t ascii_value = string[i] - '\0';
     if((ascii_value - shift < 'A' && ascii_value > 'A' - 1) || (ascii_value - shift < 'a' && ascii_value > 'a' - 1)) {
       text_decoded[i] = ascii_value + (26 - shift);
-    }else if (ascii_value  - shift >= 'A' || ascii_value - shift >= 'a') {
+    }else if ((ascii_value  - shift >= 'A' && ascii_value < 'Z' + 1) || (ascii_value - shift >= 'a' && ascii_value < 'z' + 1) ){
       text_decoded[i] = ascii_value - shift;
     }else {
       text_decoded[i] = ascii_value;
