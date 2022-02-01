@@ -6,7 +6,9 @@
 ### (LINUX ONLY!!!) If you wanna use the program everywhere in your terminal executes: 
 <code>
 $ ./make (your_shell_name, eg: bash/zsh)</code>
+<p>
 
+</p>
 <code>
 $ source ~/.<your_shell_name.rc>
 </code>
