@@ -7,4 +7,6 @@
 <code>
 $ ./make (your_shell_name, eg: bash/zsh) 
 </code>
-<p>This will create a bin folder in the current directory, compile the program, and add to your path variables the executable</p>
+
+
+This will create a bin folder in the current directory, compile the program, and add to your path variables the executable
