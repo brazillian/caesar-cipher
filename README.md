@@ -7,7 +7,7 @@
 <code>
   $ ./make (your_shell_name, eg: bash/zsh) <p>
   </p>
-  $ source ~/.<your_shell_name.rc></code>
+  $ source ~/.(your_shell_name).rc
 
 This will create a bin folder in the current directory, compile the program, and add to your path variables the executable
 
