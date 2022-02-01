@@ -5,7 +5,7 @@
 ## MAKE AND RUN EVERYWHERE OR COMPILE YOURSELF
 ### (LINUX ONLY!!!) If you wanna use the program everywhere in your terminal executes: 
 <code>
-$ ./make (your_shell_name, eg: bash/zsh) 
+$ ./make (your_shell_name, eg: bash/zsh)\n
 $ source ~/.<your_shell_name.rc>
 </code>
 
