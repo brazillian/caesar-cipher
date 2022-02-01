@@ -1,6 +1,15 @@
 #!/bin/bash
 
-mkdir ./bin/
+mkdir ./bin/ -p
 gcc ./src/cipher.c -o ./bin/cipher
-echo "export PATH=\"./bin\":$PATH" >> ~/.$1rc
-source ~/.$1rc
+
+current_directory=$(pwd)
+
+if [ $# -eq 1 ]
+then
+    echo "export PATH=$current_directory/bin:$PATH" >> ~/.$1rc
+
+else 
+    echo "please give a shell name"
+fi
+
